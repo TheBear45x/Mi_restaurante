@@ -46,10 +46,7 @@
             <div class="orange-line"></div>
             <div class="yellow-line"></div>
         </div>
-        <div class="full-separator">
-            <div class="orange-line"></div>
-            <div class="yellow-line"></div>
-        </div>
+
         <section class="platillos-section">
             <h1 class="title-main">PLATILLOS</h1>
             <div class="grid-platillos">
