@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('insumos', function (Blueprint $table) {
-    $table->id('id_insumo');
-    $table->string('nombre');
-    $table->string('categoria');
-    $table->integer('stock_actual');
-    $table->foreignId('id_proveedor')->constrained('proveedores', 'id_proveedor');
-    $table->timestamps();
-});
+            $table->id();
+            $table->string("nombre");
+            $table->integer("cantidad");
+            $table->string("unidad_medida");
+            $table->decimal("costo",10,2);
+            $table->unsignedBigInteger('proveedor_id');
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('proveedor_id')->references('id')->on('proveedores');
+        });
     }
 
     /**
