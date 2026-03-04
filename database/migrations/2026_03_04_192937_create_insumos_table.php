@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('proveedor_id')->references('id')->on('proveedores');
+//aaaaa
         });
     }
 

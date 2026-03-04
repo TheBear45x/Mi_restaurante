@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->foreign('persona_id')->references('id')->on('personas');
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
+            //aaaaa
         });
     }
 

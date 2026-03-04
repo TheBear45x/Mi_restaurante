@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean("estatus")->default(true);
             $table->softDeletes();
             $table->timestamps();
+            //aaa
         });
     }
 
