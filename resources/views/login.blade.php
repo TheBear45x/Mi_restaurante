@@ -24,17 +24,21 @@
                     @csrf
                     <div class="form-group">
                         <label>Correo</label>
-                        <input type="email" name="correo" required>
+                        <input type="email" name="correo" >
                     </div>
 
                     <div class="form-group">
                         <label>Contraseña</label>
-                        <input type="password" name="contrasena" required>
+                        <input type="password" name="contrasena" >
                     </div>
 
-                    <button type="submit" class="btn-login">Iniciar Sesión</button>
+                    {{-- <button type="submit" class="btn-login" href="{{ route('menu') }}">Iniciar Sesión</button> --}}
+                    <button type="submit" ... href="{{ route('menu') }}">
+                    <a href="{{ route('login.google') }}" class="btn-login">Iniciar sesión con Google</a>
+                    <br>
+     
                 </form>
-
+<br>
                 <div class="footer-text">
                     No tienes una cuenta. Crea una ahora mismo gratis <br>
                     <a href="/crear_cuenta">Crear cuenta</a>

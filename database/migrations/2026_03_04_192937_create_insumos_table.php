@@ -17,11 +17,11 @@ return new class extends Migration
             $table->integer("cantidad");
             $table->string("unidad_medida");
             $table->decimal("costo",10,2);
-            $table->unsignedBigInteger('proveedor_id');
+            $table->unsignedBigInteger('provedor_id');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('proveedor_id')->references('id')->on('proveedores');
+            $table->foreign('provedor_id')->references('id')->on('provedores');
 //aaaaa
         });
     }

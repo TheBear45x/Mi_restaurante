@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
+        'tipo',
+        'api_id'
     ];
 
     /**
@@ -46,3 +49,4 @@ class User extends Authenticatable
         ];
     }
 }
+

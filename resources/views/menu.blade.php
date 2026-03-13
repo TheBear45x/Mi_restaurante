@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
+    <span class="user-name">{{ Auth::user()->name }}</span>
 
     <header class="navbar">
         <button class="btn-hamburguesa" onclick="toggleMenu()">☰</button>
