@@ -32,7 +32,7 @@
                         <input type="password" name="contrasena" >
                     </div>
 
-                    {{-- <button type="submit" class="btn-login" href="{{ route('menu') }}">Iniciar Sesión</button> --}}
+                    <button type="submit" class="btn-login" href="{{ route('menu') }}">Iniciar Sesión</button>
                     <button type="submit" ... href="{{ route('menu') }}">
                     <a href="{{ route('login.google') }}" class="btn-login">Iniciar sesión con Google</a>
                     <br>

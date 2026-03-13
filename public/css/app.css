@@ -1,178 +1,57 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --gradient-base: linear-gradient(180deg, #FFEB3B 0%, #FDD835 16.6%, #FBC02D 33.3%, #FFA000 50%, #F57C00 66.6%, #EF6C00 83.3%, #E65100 100%);
+    --gradient-navbar: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
+    --gold: #FBC02D;
+    --text-light: #FFFFFF;
 }
 
 body {
-    background-color: white; 
-    font-family: Arial, sans-serif;
+    background: var(--gradient-base);
+    background-attachment: fixed;
+    font-family: 'Poppins', sans-serif;
     min-height: 100vh;
-    width: 100%;
 }
 
-.login-container {
-    width: 100%; 
-    min-height: 100vh; 
-    display: flex;
-    flex-direction: column;
+/* Navbar Estilo Elegante */
+.navbar-custom {
+    background: var(--gradient-navbar);
+    border-bottom: 3px solid var(--gold);
+    padding: 0.5rem 2rem;
 }
 
-.header-yellow {
-    background-color: #FFD700;
-    padding: 40px 0; 
-    text-align: center;
-    width: 100%; 
+.navbar-brand img {
+    filter: drop-shadow(0px 0px 5px rgba(251, 192, 45, 0.5));
 }
 
-.logo-restaurant {
-    width: 200px; 
-}
-
-.login-body {
-    flex-grow: 1;
-    padding: 50px 20px;
-    text-align: center;
-    background-color: white;
-    width: 100%;
-}
-
-
-.login-card {
-    background-color: #FFD700;
-    padding: 40px;
-    border-radius: 15px;
-    border: 3px solid #FFA500;
-    max-width: 500px; 
-    margin: 0 auto;   
-}
-
-.form-group {
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-.btn-login {
-    background-color: white;
-    border: none;
-    padding: 15px 40px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.btn-crear {
-    background-color: #00FF88; 
-    color: white;
-    border: none;
-    padding: 15px;
-    font-weight: bold;
-    border-radius: 10px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
-    margin-top: 10px;
-}
-
-.btn-crear:hover {
-    background-color: #00E67A;
-    transform: scale(1.02);
+.nav-link {
+    color: var(--text-light) !important;
+    font-weight: 500;
     transition: 0.3s;
+    border-bottom: 2px solid transparent;
 }
 
-.btn-iniciar-link {
-    display: block;
-    background-color: #CCFF00; /* Amarillo verdoso brillante uuuuu */
-    color: black;
-    text-align: center;
-    padding: 12px;
-    text-decoration: none;
+.nav-link:hover {
+    color: var(--gold) !important;
+    border-bottom: 2px solid var(--gold);
+}
+
+.card-restaurant {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    border: none;
+}
+
+.btn-restaurant {
+    background: linear-gradient(90deg, #FBC02D, #F57C00);
+    color: white;
+    border-radius: 50px;
+    border: none;
     font-weight: bold;
-    border-radius: 10px;
-    margin-top: 10px;
+    text-transform: uppercase;
 }
 
-.login-card h3 {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    text-align: center;
-}
-
-/* Estilo para el menu*/
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: sans-serif; overflow-x: hidden; }
-
-ñ.navbar {
-    background-color: #FFC107;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    border-bottom: 2px solid #000;
-}
-.logo-top { height: 55px; }
-.btn-hamburguesa { background: none; border: none; font-size: 30px; cursor: pointer; }
-
-.user-header { display: flex; align-items: center; gap: 10px; }
-.user-name { font-weight: bold; font-size: 14px; }
-.user-circle {
-    width: 40px; height: 40px; background: #000; color: #fff;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
-}
-
-.sidebar {
-    width: 260px; background-color: #FFC107; height: 100vh;
-    position: fixed; left: -260px; top: 70px; transition: 0.3s;
-    border-right: 2px solid #000; z-index: 1000;
-}
-.sidebar.active { left: 0; }
-.sidebar-header { padding: 20px; font-weight: bold; text-align: center; border-bottom: 1px solid #000; }
-.sidebar-nav a { display: block; padding: 15px; color: #000; text-decoration: none; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); }
-
-.welcome-container { display: flex; padding: 40px 10%; gap: 40px; align-items: flex-start; }
-.welcome-image-box img { width: 450px; height: 280px; object-fit: cover; border: 4px solid #FFC107; }
-.welcome-text-box { flex: 1; }
-.welcome-text-box h2 { margin-bottom: 15px; font-size: 24px; }
-.welcome-text-box p { text-align: justify; line-height: 1.4; }
-
-.full-separator { width: 100%; margin: 20px 0; }
-.orange-line { background-color: #FFA000; height: 35px; width: 100%; }
-.yellow-line { background-color: #FFEB3B; height: 12px; width: 100%; }
-
-.platillos-section { padding: 0 10%; }
-.title-main { text-align: center; margin: 30px 0; }
-.grid-platillos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-.card { background-color: #FFF9C4; border: 1px solid #FFC107; padding: 15px; }
-.card-img { background: #fff; height: 180px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd; }
-.card-body h3 { margin-bottom: 10px; }
-
-/* Botón Centrado */
-.center-button { display: flex; justify-content: center; padding: 50px 0; }
-.btn-yellow {
-    background-color: #FFC107; border: none; padding: 15px 50px;
-    font-weight: bold; font-size: 16px; cursor: pointer; border-radius: 4px;
+.btn-restaurant:hover {
+    background: #000;
+    color: var(--gold);
 }
