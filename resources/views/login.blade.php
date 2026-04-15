@@ -8,44 +8,45 @@
 </head>
 <body>
 
-    <div class="login-container">
-        <div class="header-yellow">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo" class="logo-restaurant">
-        </div>
+<div class="login-wrapper">
 
-        <div class="login-body">
-            <h1>Bienvenido</h1>
-            <h2>MI - RESTAURANT</h2>
+    <div class="login-left">
+        <img src="{{ asset('img/logo.png') }}" alt="logo" class="logo-img">
+        <h1 class="logo">My Restaurant</h1>
 
-            <div class="login-card">
-                <h3>Iniciar Sesión</h3>
+        <div class="login-box">
+            <h2>Bienvenido de nuevo</h2>
 
-                <form action="/login" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label>Correo</label>
-                        <input type="email" name="correo" >
-                    </div>
+            <a href="{{ route('login.google') }}" class="btn-google">
+                <img src="{{ asset('img/google.png') }}" alt="google">
+                Continuar con Google
+            </a>
 
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" name="contrasena" >
-                    </div>
+            <div class="divider">o</div>
 
-                    {{-- <button type="submit" class="btn-login" href="{{ route('menu') }}">Iniciar Sesión</button> --}}
-                    <button type="submit" ... href="{{ route('menu') }}">
-                    <a href="{{ route('login.google') }}" class="btn-login">Iniciar sesión con Google</a>
-                    <br>
-     
-                </form>
-<br>
-                <div class="footer-text">
-                    No tienes una cuenta. Crea una ahora mismo gratis <br>
-                    <a href="/crear_cuenta">Crear cuenta</a>
-                </div>
-            </div>
+            {{-- <form action="/login" method="POST"> --}}
+                <form action="{{ route('login.local') }}" method="POST">
+                @csrf
+
+                <input type="email" name="correo" placeholder="Correo electrónico">
+                <input type="password" name="contrasena" placeholder="Contraseña">
+
+                <button type="submit" class="btn-login">
+                    Continuar
+                </button>
+            </form>
+
+            <p class="footer-text">
+                ¿No tienes cuenta? <a href="/crear_cuenta">Regístrate</a>
+            </p>
         </div>
     </div>
+
+    <div class="login-right">
+        <img src="{{ asset('img/foto-login.jpg') }}" alt="fondo">
+    </div>
+
+</div>
 
 </body>
 </html>
