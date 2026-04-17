@@ -15,37 +15,34 @@
 
         <div class="login-body">
             <div class="login-card">
-                <form id="registroForm">
-                    <h3>Nombre Completo:</h3>
-                    <div class="form-group">
-                        <input type="text" id="nombre" name="nombre" required>
-                    </div>
+                <<form action="{{ route('registrar.post') }}" method="POST">
+    <form action="{{ route('registrar.post') }}" method="POST">
+    @csrf
 
-                    <h3>Correo electrónico:</h3>
-                    <div class="form-group">
-                        <input type="email" id="correo" name="correo" required>
-                    </div>
+    <h3>Nombres:</h3>
+    <input type="text" name="nombres" required>
 
-                    <h3>Contraseña:</h3>
-                    <div class="form-group">
-                        <input type="password" id="pass" name="pass" required>
-                    </div>
+    <h3>Apellido Paterno:</h3>
+    <input type="text" name="apaterno" required>
 
-                    <h3>Num. Teléfono:</h3>
-                    <div class="form-group">
-                        <input type="text" id="telefono" name="telefono">
-                    </div>
+    <h3>Apellido Materno:</h3>
+    <input type="text" name="amaterno" required>
 
-                    <button type="button" class="btn-crear" onclick="mostrarAnimacion()">
-                        Craer Cuenta!
-                    </button>
-                </form>
+    <h3>Edad:</h3>
+    <input type="number" name="edad" required>
 
-                <p class="footer-text">Ya tienes una cuenta? Incía Sesion ya!</p>
-                
-                <a href="/" class="btn-iniciar-link">
-                    INICIAR SESION
-                </a>
+    <h3>Correo:</h3>
+    <input type="email" name="correo" required>
+
+    <h3>Teléfono:</h3>
+    <input type="text" name="telefono" required>
+
+    <h3>Contraseña:</h3>
+    <input type="password" name="password" required> <br><br>
+    <button type="submit" class="btn-crear">¡Guardar y Entrar!</button>
+</form>
+
+<p>¿Ya tienes una cuenta? <a href="{{ route('login') }}">INICIAR SESIÓN</a></p>
             </div>
         </div>
     </div>

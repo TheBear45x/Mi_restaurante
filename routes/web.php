@@ -1,85 +1,114 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PlatilloController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\ProvedorController;
+use App\Http\Controllers\ReservacionController;
+use App\Http\Controllers\VentaController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PedidoController; 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// ----------------------------------------------------------------------
+// 1. INICIO Y GOOGLE AUTH
+// ----------------------------------------------------------------------
+Route::get('/', function () { return view('login'); })->name('login');
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
-Route::post('/logout', function (Illuminate\Http\Request $request) {
-    Auth::logout();
-    $request->session()->invalidate(); // Limpia la sesión
-    $request->session()->regenerateToken(); // Cambia el token de seguridad
-    return redirect('/');
-})->name('logout');
-Route::post('/login', [LoginController::class, 'login'])->name('login.local');
-// Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login.local');
-// Ruta para el botón de Google
-Route::get('/google-login', function(){
-    return Socialite::driver('google')->redirect();
-})->name('login.google');
-
-// Callback adaptado de tu proyecto Tienda
-Route::get("/google-callback", function(){
-    $user = Socialite::driver('google')->user();
-
-    // Buscamos al usuario igual que en "Tienda"
-    $buscarUsuario = User::where('api_id', $user->id)
-                         ->where('tipo','google')
-                         ->first();
-
-    if($buscarUsuario){
-        Auth::login($buscarUsuario);
-    } else {
-        // Creamos el usuario con la estructura de tu modelo de Mi Restaurant
-        $nuevoUsuario = User::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'tipo' => 'google', 
-            'api_id' => $user->id,
-            'avatar' => $user->avatar,
-            'password' => null // Importante para evitar errores de BD
-        ]);
-        Auth::login($nuevoUsuario);
-    }
-    
-    // En Tienda ibas a producto.mostrar, aquí vamos al menu
-    return redirect()->route('menu');
-});
-
-// Ruta de Logout (Para poder cambiar entre Admin y Google)
+// Agrégala dentro del middleware auth
 Route::post('/logout', function () {
-    Auth::logout();
+    auth()->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
     return redirect('/');
 })->name('logout');
 
-Route::get('/crear_cuenta', function () {
-    return view('crear_cuenta');
-});
+// ----------------------------------------------------------------------
+// 2. RUTAS PROTEGIDAS (PARA CUALQUIER USUARIO LOGUEADO)
+// ----------------------------------------------------------------------
+Route::middleware(['auth'])->group(function () {
 
-// Route::get('/menu', [ProductoController::class, 'index'])->name('menu');
-Route::get('/menu', function() {
-    return "¡Login exitoso! El usuario es: " . Auth::user()->name;
-})->name('menu');
+    Route::get('/menu', [PlatilloController::class, 'index'])->name('menu');
+
+    // --- ACCIONES DEL CLIENTE (USUARIO NORMAL) ---
+    
+    // Pedidos Web (Para recoger en tienda)
+    Route::get('/hacer_pedido', function () { return view('hacer_pedido'); })->name('pedidos.crear');
+    Route::post('/enviar_pedido', [PedidoController::class, 'store'])->name('pedidos.store');
+    Route::get('/mis_pedidos', [PedidoController::class, 'misPedidos'])->name('pedidos.usuario');
+
+    // Comentarios
+    Route::get('/escribir_comentario', function () { return view('crear_comentario'); })->name('comentarios.crear');
+    Route::post('/comentarios/guardar', [PlatilloController::class, 'guardarComentario'])->name('comentarios.guardar');
+    Route::get('/ver_comentarios', [PlatilloController::class, 'verComentarios'])->name('comentarios.lista');
+    Route::get('/mis_comentarios', [PlatilloController::class, 'misComentarios'])->name('comentarios.mios');
+
+    // Reservaciones
+    // Cambia la función anónima por la llamada al controlador
+// Rutas de creación y visualización
+Route::get('/reservaciones', [ReservacionController::class, 'crear'])->name('reservaciones.crear');
+Route::post('/reservaciones/guardar', [ReservacionController::class, 'guardar'])->name('reservaciones.guardar');
+Route::get('/ver_reservacion', [ReservacionController::class, 'misReservaciones'])->name('reservaciones.ver');
+
+// Rutas de gestión (Editar y Eliminar)
+Route::get('/reservaciones/editar/{id}', [ReservacionController::class, 'editar'])->name('reservaciones.editar');
+Route::post('/reservaciones/actualizar/{id}', [ReservacionController::class, 'actualizar'])->name('reservaciones.actualizar');
+Route::delete('/reservaciones/eliminar/{id}', [ReservacionController::class, 'eliminar'])->name('reservaciones.eliminar');
+
+    // Perfil y Ventas rápidas
+    Route::get('/editar_perfil', function () { return view('editar_perfil'); })->name('perfil.editar');
+    Route::put('/actualizar_perfil', [UserController::class, 'actualizarPerfil'])->name('perfil.actualizar');
+    Route::get('/ventas/crear/{id}', [VentaController::class, 'crear'])->name('ventas.crear');
+    
+    Route::get('/ventas', function () { return view('ventas'); })->name('ventas.vista');
+    Route::post('/ventas', [VentaController::class, 'agregar'])->name('ventas.agregar');
 
 
+    // ----------------------------------------------------------------------
+    // 3. BLOQUE DE ADMINISTRADOR (SOLO ROL ADMIN)
+    // ----------------------------------------------------------------------
+    Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->group(function () {
+        
+    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.panel')->middleware('auth');
 
-// Rutas públicas o para usuarios normales
-Route::middleware(['auth', 'es_admin'])->group(function () {
-// Route::get('/menu', [ProductoController::class, 'index'])->name('menu');
-Route::get('/platillo/nuevo', [PlatilloController::class, 'nuevo'])->name('platillo.nuevo');
-Route::post('/platillo/guardar', [PlatilloController::class, 'guardar'])->name('platillo.guardar');
-Route::get('/platillo/mostrar', [PlatilloController::class, 'mostrar'])->name('platillo.mostrar');
-Route::get('/platillo/editar/{id}', [PlatilloController::class, 'editar'])->name('platillo.editar');
-Route::post('/platillo/actualizar', [PlatilloController::class, 'actualizar'])->name('platillo.actualizar');
-Route::get('/platillo/eliminar/{id}', [PlatilloController::class, 'eliminar'])->name('platillo.eliminar');
+        // GESTIÓN DE PLATILLOS (CRUD COMPLETO)
+        Route::get('/registrar_platillo', function () { return view('registrar_platillo'); })->name('platillos.registro');
+        Route::post('/registrar_platillo', [PlatilloController::class, 'agregar'])->name('platillos.agregar');
+        Route::get('/listas_platillos', [PlatilloController::class, 'mostrar'])->name('platillos.lista');
+        Route::get('/editar_platillos/{id}', [PlatilloController::class, 'editar'])->name('platillos.editar');
+        Route::put('/actualizar_platillo/{id}', [PlatilloController::class, 'actualizar'])->name('platillos.actualizar');
+        Route::get('/eliminar_platillos/{id}', [PlatilloController::class, 'eliminar'])->name('platillos.eliminar');
+
+        // GESTIÓN DE SUCURSALES (CRUD COMPLETO)
+        Route::get('/sucursal', function (){ return view('sucursal'); })->name('sucursal.vista');
+        Route::post('/sucursal', [SucursalController::class, 'agregar'])->name('sucursal.agregar');
+        Route::get('/listas_sucursales', [SucursalController::class, 'mostrar'])->name('sucursales.lista');
+        Route::get('/editar_sucursales/{id}', [SucursalController::class, 'editar'])->name('sucursales.editar');
+        Route::put('/actualizar_sucursal/{id}', [SucursalController::class, 'actualizar'])->name('sucursales.actualizar');
+Route::delete('/eliminar_sucursales/{id}', [SucursalController::class, 'eliminar'])->name('sucursales.eliminar');
+        // GESTIÓN DE PROVEEDORES (CRUD COMPLETO)
+        Route::get('/provedores', function () { return view('provedores'); })->name('provedores.vista');
+        Route::post('/provedores', [ProvedorController::class, 'agregar'])->name('provedores.agregar');
+Route::get('/listas_provedores', [ProvedorController::class, 'mostrar'])->name('provedores.lista');
+Route::get('/editar_provedores/{id}', [ProvedorController::class, 'editar'])->name('provedores.editar');
+Route::put('/actualizar_provedor/{id}', [ProvedorController::class, 'actualizar'])->name('provedores.actualizar');
+
+        // GESTIÓN DE USUARIOS
+        Route::get('/usuarios', function () { return view('usuarios'); })->name('usuarios.vista');
+        Route::get('/listas_usuarios', [UserController::class, 'mostrar'])->name('usuarios.lista');
+        Route::get('/editar_usuarios/{id}', [UserController::class, 'editar'])->name('usuarios.editar');
+        Route::put('/actualizar_usuario/{id}', [UserController::class, 'actualizar'])->name('usuarios.actualizar');
+
+        // REPORTES, PEDIDOS WEB Y COMENTARIOS
+        Route::get('/detalles_ventas', [VentaController::class, 'mostrar'])->name('ventas.lista');
+        Route::get('/admin/pedidos_web', [PedidoController::class, 'index'])->name('pedidos.admin');
+        Route::get('/admin/comentarios', [PlatilloController::class, 'verComentariosAdmin'])->name('comentarios.lista');
+        Route::get('/listas_reservaciones', [ReservacionController::class, 'mostrar'])->name('reservaciones.lista');
+        Route::get('/eliminar_reservaciones/{id}', [ReservacionController::class, 'eliminar'])->name('reservaciones.eliminar');
+
+        Route::get('/panel_admin', function () { return view('panel_admin'); })->name('panel_admin');
+    });
 });

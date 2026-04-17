@@ -42,3 +42,32 @@ function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('active');
 }
+
+// Abrir y cerrar menú lateral
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main-content');
+    sidebar.classList.toggle('active');
+    main.classList.toggle('shifted');
+}
+
+// Efecto de aparición suave para las tarjetas al hacer scroll
+document.addEventListener("DOMContentLoaded", function() {
+    const cards = document.querySelectorAll('.card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "all 0.5s ease-out";
+        observer.observe(card);
+    });
+});

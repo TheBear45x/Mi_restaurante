@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string("password");
             $table->enum("rol", ["cliente","empleado","admin"]);
             $table->boolean("estatus")->default(true);
+
+            $table->string('google_id')->nullable()->unique();
+            
             $table->softDeletes();
             $table->timestamps();
             //aaa

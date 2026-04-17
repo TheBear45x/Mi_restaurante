@@ -3,16 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Empleado extends Model
 {
-    protected $table = 'empleados';
-    protected $primaryKey = 'id_empleado';
-    protected $guarded = [];
+    use SoftDeletes;
 
-    // Relación: El empleado pertenece a una Persona (para traer su nombre/correo)
-    public function persona()
-    {
-        return $this->belongsTo(Persona::class, 'id_persona');
-    }
+    protected $table = 'empleados';
+
+    protected $fillable = [
+        'codigo_empleado',
+        'persona_id',
+        'sucursal_id',
+        'puesto',
+        'salario'
+    ];
 }
