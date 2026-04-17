@@ -22,6 +22,11 @@ return new class extends Migration
 
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->foreign('platillo_id')->references('id')->on('platillos');
+
+            $table->foreignId('user_id')->constrained(); 
+// O de forma manual:
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+$table->unsignedBigInteger('user_id');
             //aaa
         });
     }

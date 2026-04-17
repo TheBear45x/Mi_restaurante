@@ -10,15 +10,28 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('tipo')->after('password');
-            $table->string('avatar')->after('name')->nullable();
-            $table->string('password')->nullable()->change();
-            $table->string('api_id')->nullable();
-        });
-    }
+    public function up()
+{
+    Schema::create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->timestamp('email_verified_at')->nullable();
+        $table->string('password');
+        
+        // --- AGREGA ESTO PARA GOOGLE ---
+        $table->string('google_id')->nullable();
+        $table->string('avatar')->nullable();
+        $table->string('rol')->default('cliente');
+
+        $table->string('google_id')->nullable();
+        $table->string('avatar')->nullable();
+        $table->string('rol')->default('cliente');
+        
+        $table->rememberToken();
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

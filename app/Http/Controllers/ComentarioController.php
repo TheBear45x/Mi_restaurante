@@ -21,7 +21,7 @@ class ComentarioController extends Controller
     public function mostrar()
     {
         $comentarios = Comentario::all();
-        return view('comentarios', compact('comentarios'));
+        return view('mis_comentarios', compact('comentarios'));
     }
 
     public function misComentarios() {

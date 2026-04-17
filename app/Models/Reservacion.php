@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservacion extends Model
 {
-    use SoftDeletes;
+    // Con esto le decimos a Laravel exactamente cómo se llama tu tabla en phpMyAdmin
+    protected $table = 'reservaciones'; 
 
-    // Le decimos explícitamente el nombre de la tabla
-    protected $table = 'reservaciones';
 
     // Declaramos los campos que se pueden llenar (para evitar problemas de asignación masiva)
     protected $fillable = [

@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Importante
+use Illuminate\Notifications\Notifiable;
 
-class Persona extends Model
+class Persona extends Authenticatable
 {
-    protected $table = 'personas';
-    protected $primaryKey = 'id_persona';
-    protected $guarded = [];
+    use Notifiable;
+    
+    protected $table = 'personas'; // Tu tabla
+    protected $fillable = [
+    'nombre',
+    'descripcion',
+    'precio',
+    'foto', 
+    'disponible',
+];
 
-    // Relación: Una persona puede ser un Cliente
-    public function cliente()
+    public function getAuthPassword()
     {
-        return $this->hasOne(Cliente::class, 'id_persona');
-    }
-
-    // Relación: Una persona puede ser un Empleado
-    public function empleado()
-    {
-        return $this->hasOne(Empleado::class, 'id_persona');
+        return $this->password; // Texto plano para tu sistema
     }
 }

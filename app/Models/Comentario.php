@@ -11,12 +11,12 @@ class Comentario extends Model
 
     protected $table = 'comentarios';
 
-    protected $fillable = [
-        'cliente_id',
-        'platillo_id',
-        'comentario',
-        'calificacion'
-    ];
+    protected $fillable = ['platillo_id', 'cliente_id', 'user_id', 'comentario'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function cliente()
     {

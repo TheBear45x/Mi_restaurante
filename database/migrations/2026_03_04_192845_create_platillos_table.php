@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('platillos', function (Blueprint $table) {
-            $table->id();
-            $table->string("nombre");
-            $table->text("descripcion");
-            $table->decimal("precio",10,2);
-            $table->string("imagen")->nullable();
-            $table->boolean("disponible")->default(true);
-            $table->softDeletes();
-            $table->timestamps();
-            //aaa
-        });
+    $table->id();
+    $table->string("nombre");
+    $table->text("descripcion");
+    $table->decimal("precio", 10, 2);
+    $table->string("foto")->nullable(); // Cambiado de blob a string
+    $table->boolean("disponible")->default(true);
+    $table->softDeletes();
+    $table->timestamps();
+});
     }
 
     /**

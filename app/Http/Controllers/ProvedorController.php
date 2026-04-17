@@ -45,8 +45,8 @@ class ProvedorController extends Controller
         return redirect()->route('provedores.lista')->with('success', 'Proveedor actualizado correctamente.');
     }
 
-    public function mostar(){
-        $provedores = Provedor::all();
-        return view('listas_provedores', compact('provedores'));
-    }
+    public function mostrar(){ // Agrega la 'r' que falta
+    $provedores = Provedor::all();
+    return view('listas_provedores', compact('provedores'));
+}
 }
