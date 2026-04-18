@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('reservaciones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cliente_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('sucursal_id');
             $table->dateTime("fecha_hora");
             $table->integer("numero_personas");
-            $table->enum("estatus",["pendiente","confirmada","cancelada"]);
+            $table->enum("estatus",["pendiente","confirmada","cancelada"])->default('pendiente');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('cliente_id')->references('id')->on('clientes');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             //aaaaa
         });

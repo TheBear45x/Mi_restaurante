@@ -13,21 +13,13 @@ return new class extends Migration
     {
         Schema::create('comentarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cliente_id');
-            $table->unsignedBigInteger('platillo_id')->nullable();
+            $table->foreignId('platillo_id')->constrained('platillos')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text("comentario");
-            $table->integer("calificacion");
+            $table->integer("calificacion")->default(5);
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->foreign('platillo_id')->references('id')->on('platillos');
-
-            $table->foreignId('user_id')->constrained(); 
-// O de forma manual:
-    $table->foreignId('user_id')->constrained()->onDelete('cascade');
-$table->unsignedBigInteger('user_id');
-            //aaa
         });
     }
 

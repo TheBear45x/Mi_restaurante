@@ -101,12 +101,12 @@
         @csrf
         @method('PUT')
 
-        <label for="cliente_id">Cliente</label>
-        <select name="cliente_id" id="cliente_id" required>
+        <label for="user_id">Cliente</label>
+        <select name="user_id" id="user_id" required>
             <option value="">Seleccionar Cliente</option>
-            @foreach($clientes as $cliente)
-                <option value="{{ $cliente->id }}" {{ $reservacion->cliente_id == $cliente->id ? 'selected' : '' }}>
-                    {{ $cliente->nombre }}
+            @foreach($usuarios as $usuario)
+                <option value="{{ $usuario->id }}" {{ $reservacion->user_id == $usuario->id ? 'selected' : '' }}>
+                    {{ $usuario->name }} ({{ $usuario->email }})
                 </option>
             @endforeach
         </select>

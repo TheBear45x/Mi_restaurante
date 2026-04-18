@@ -13,7 +13,7 @@ class Reservacion extends Model
 
     // Declaramos los campos que se pueden llenar (para evitar problemas de asignación masiva)
     protected $fillable = [
-        'cliente_id',
+        'user_id',
         'sucursal_id',
         'fecha_hora',
         'numero_personas',
@@ -21,9 +21,9 @@ class Reservacion extends Model
     ];
 
     // RELACIÓN: Una reservación pertenece a un Cliente
-    public function cliente()
+    public function user()
     {
-        return $this->belongsTo(Cliente::class, 'cliente_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // RELACIÓN: Una reservación pertenece a una Sucursal

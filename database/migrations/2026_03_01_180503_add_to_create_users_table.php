@@ -19,10 +19,6 @@ return new class extends Migration
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
         
-        // --- AGREGA ESTO PARA GOOGLE ---
-        $table->string('google_id')->nullable();
-        $table->string('avatar')->nullable();
-        $table->string('rol')->default('cliente');
 
         $table->string('google_id')->nullable();
         $table->string('avatar')->nullable();

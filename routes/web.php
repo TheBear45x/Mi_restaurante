@@ -16,7 +16,7 @@ use App\Http\Controllers\PedidoController;
 // ----------------------------------------------------------------------
 Route::get('/', function () { return view('login'); })->name('login');
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('google-callback', [GoogleController::class, 'handleGoogleCallback']);
 
 // Agrégala dentro del middleware auth
 Route::post('/logout', function () {
@@ -55,7 +55,7 @@ Route::get('/ver_reservacion', [ReservacionController::class, 'misReservaciones'
 
 // Rutas de gestión (Editar y Eliminar)
 Route::get('/reservaciones/editar/{id}', [ReservacionController::class, 'editar'])->name('reservaciones.editar');
-Route::post('/reservaciones/actualizar/{id}', [ReservacionController::class, 'actualizar'])->name('reservaciones.actualizar');
+Route::put('/reservaciones/actualizar/{id}', [ReservacionController::class, 'actualizar'])->name('reservaciones.actualizar');
 Route::delete('/reservaciones/eliminar/{id}', [ReservacionController::class, 'eliminar'])->name('reservaciones.eliminar');
 
     // Perfil y Ventas rápidas

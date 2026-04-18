@@ -41,7 +41,7 @@
                     </td>
                     <td class="text-comment">
                         {{-- CORRECCIÓN: Aquí usamos 'contenido' porque así lo guardas en tu controlador --}}
-                        "{{ $com->contenido }}" 
+                        "{{ $com->comentario }}" 
                     </td>
                     <td>{{ $com->created_at->format('d/m/Y H:i') }}</td>
                 </tr>
